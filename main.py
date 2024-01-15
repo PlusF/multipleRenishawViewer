@@ -30,7 +30,7 @@ class MainWindow(tk.Frame):
 
     def create_widgets(self):
         # canvas
-        self.width_canvas = 1400
+        self.width_canvas = 1200
         self.height_canvas = 600
         dpi = 50
         if os.name == 'posix':
@@ -56,6 +56,7 @@ class MainWindow(tk.Frame):
         frame_plot.grid(row=2, column=1)
 
         # frame plot
+        label_map_range = tk.Label(frame_plot, text='Map Range')
         self.map_range = tk.StringVar(value='G(1570~1610)')
         self.optionmenu_map_range = tk.OptionMenu(frame_plot, self.map_range, 'G(1570~1610)', '2D(2550~2750)',
                                                   command=self.change_map_range)
@@ -64,6 +65,7 @@ class MainWindow(tk.Frame):
         self.map_range_2 = tk.DoubleVar(value=1610)
         entry_map_range_1 = tk.Entry(frame_plot, textvariable=self.map_range_1, width=7, justify=tk.CENTER)
         entry_map_range_2 = tk.Entry(frame_plot, textvariable=self.map_range_2, width=7, justify=tk.CENTER)
+        label_cmap_range = tk.Label(frame_plot, text='Color Range')
         self.cmap_range_1 = tk.DoubleVar(value=0)
         self.cmap_range_2 = tk.DoubleVar(value=10000)
         entry_cmap_range_1 = tk.Entry(frame_plot, textvariable=self.cmap_range_1, width=7, justify=tk.CENTER)
@@ -79,20 +81,24 @@ class MainWindow(tk.Frame):
                                                            'jet', 'nipy_spectral', 'gist_ncar']),
                                                   command=self.show_img)
         self.optionmenu_map_color.config(state=tk.DISABLED)
+        label_alpha = tk.Label(frame_plot, text='Alpha')
         self.alpha = tk.DoubleVar(value=1)
         entry_alpha = tk.Entry(frame_plot, textvariable=self.alpha, width=7, justify=tk.CENTER)
         self.autoscale = tk.BooleanVar(value=True)
         checkbox_autoscale = tk.Checkbutton(frame_plot, text='Auto Scale', variable=self.autoscale)
 
-        self.optionmenu_map_range.grid(row=0, column=0, columnspan=3)
-        entry_map_range_1.grid(row=1, column=0)
-        entry_map_range_2.grid(row=1, column=1)
-        self.button_apply.grid(row=1, column=2)
-        entry_cmap_range_1.grid(row=2, column=0)
-        entry_cmap_range_2.grid(row=2, column=1)
-        self.optionmenu_map_color.grid(row=2, column=2)
-        entry_alpha.grid(row=3, column=0)
-        checkbox_autoscale.grid(row=3, column=1, columnspan=2)
+        label_map_range.grid(row=0, column=0, rowspan=2)
+        self.optionmenu_map_range.grid(row=0, column=1, columnspan=2)
+        self.button_apply.grid(row=0, column=3, rowspan=5, sticky=tk.NSEW)
+        entry_map_range_1.grid(row=1, column=1)
+        entry_map_range_2.grid(row=1, column=2)
+        label_cmap_range.grid(row=2, column=0)
+        entry_cmap_range_1.grid(row=2, column=1)
+        entry_cmap_range_2.grid(row=2, column=2)
+        label_alpha.grid(row=3, column=0)
+        entry_alpha.grid(row=3, column=1)
+        self.optionmenu_map_color.grid(row=5, column=0, columnspan=2)
+        checkbox_autoscale.grid(row=6, column=0, columnspan=3)
 
     def on_click(self, event: matplotlib.backend_bases.MouseEvent) -> None:
         # クリックした点のスペクトルを表示する
@@ -158,7 +164,7 @@ class MainWindow(tk.Frame):
             self.map_range_2.set(2750)
         self.show_img()
 
-    def show_img(self) -> None:
+    def show_img(self, event=None) -> None:
         self.ax[0].cla()
         self.horizontal_line = self.ax[0].axhline(color='k', lw=1, ls='--')
         self.vertical_line = self.ax[0].axvline(color='k', lw=1, ls='--')
