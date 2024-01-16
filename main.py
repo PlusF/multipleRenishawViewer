@@ -1,12 +1,12 @@
 import os
 import tkinter as tk
-from tkinter import messagebox, filedialog
+from tkinter import messagebox
 from tkinterdnd2 import TkinterDnD, DND_FILES
 import matplotlib.pyplot as plt
 import matplotlib.backend_bases
-from matplotlib import rcParams, patches
+from matplotlib import rcParams
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
-from matplotlib.backend_bases import key_press_handler, MouseButton, _Mode
+from matplotlib.backend_bases import key_press_handler, MouseButton
 from RenishawDataLoader import RenishawDataLoader
 
 rcParams['keymap.back'].remove('left')
