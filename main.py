@@ -49,11 +49,21 @@ class MainWindow(tk.Frame):
 
         # frames
         frame_data = tk.LabelFrame(self.master, text='Data')
-        frame_download = tk.LabelFrame(self.master, text='Download')
         frame_plot = tk.LabelFrame(self.master, text='Plot')
         frame_data.grid(row=0, column=1)
-        frame_download.grid(row=1, column=1)
-        frame_plot.grid(row=2, column=1)
+        frame_plot.grid(row=1, column=1)
+
+        # frame data
+        label_folder = tk.Label(frame_data, text='Folder:')
+        label_filename = tk.Label(frame_data, text='Filename:')
+        self.folder = tk.StringVar(value='None')
+        self.filename = tk.StringVar(value='None')
+        label_folder_value = tk.Label(frame_data, textvariable=self.folder)
+        label_filename_value = tk.Label(frame_data, textvariable=self.filename)
+        label_folder.grid(row=0, column=0)
+        label_folder_value.grid(row=0, column=1)
+        label_filename.grid(row=1, column=0)
+        label_filename_value.grid(row=1, column=1)
 
         # frame plot
         label_map_range = tk.Label(frame_plot, text='Map Range')
@@ -112,7 +122,12 @@ class MainWindow(tk.Frame):
         found = self.dataloader.set_index_from_coord(event.xdata, event.ydata)
         if not found:
             return
-        # ファイルが特定されたらインデックスを計算
+        # ファイルが特定されたらファイル名を表示
+        filename = self.dataloader.get_current_filename()
+        folder, basename = os.path.split(filename)
+        self.folder.set(folder)
+        self.filename.set(basename)
+        # インデックスを計算
         self.row, self.col = self.dataloader.coord2idx(event.xdata, event.ydata)
         self.update_plot()
 

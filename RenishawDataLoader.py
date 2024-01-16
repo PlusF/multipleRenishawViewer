@@ -13,6 +13,7 @@ def subtract_baseline(data: np.ndarray):
 # Calibratorは自作ライブラリ。Rayleigh, Raman用のデータとフィッティングの関数等が含まれている。
 class RenishawDataLoader:
     def __init__(self):
+        self.filename_list = []
         self.wavenumber_list = []
         self.spectra_list = []
         self.maporigin_list = np.empty((0, 2))
@@ -29,6 +30,7 @@ class RenishawDataLoader:
         # 二次元じゃない場合False (x座標) x (y座標) x (スペクトル) の3次元のはず
         if len(reader.spectra.shape) != 3:
             return False
+        self.filename_list.append(filename)
         self.wavenumber_list.append(reader.xdata)
         self.spectra_list.append(reader.spectra)
         # self.shape = self.map_data.shape[:2]
@@ -81,6 +83,9 @@ class RenishawDataLoader:
 
     def get_current_shape(self):
         return self.spectra_list[self.current_selected_index].shape[:2]
+
+    def get_current_filename(self):
+        return self.filename_list[self.current_selected_index]
 
     def col2row(self, row: int, col: int) -> [int, int]:
         shape = self.spectra_list[self.current_selected_index].shape[:2]
