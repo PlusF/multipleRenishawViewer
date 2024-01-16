@@ -81,6 +81,7 @@ class MainWindow(tk.Frame):
         entry_cmap_range_1 = tk.Entry(frame_plot, textvariable=self.cmap_range_1, width=7, justify=tk.CENTER)
         entry_cmap_range_2 = tk.Entry(frame_plot, textvariable=self.cmap_range_2, width=7, justify=tk.CENTER)
         self.button_apply = tk.Button(frame_plot, text='APPLY', command=self.show_img, width=7, state=tk.DISABLED)
+        label_map_color = tk.Label(frame_plot, text='Color Map')
         self.map_color = tk.StringVar(value='hot')
         self.optionmenu_map_color = tk.OptionMenu(frame_plot, self.map_color,
                                                   *sorted(['viridis', 'plasma', 'inferno', 'magma', 'cividis',
@@ -105,10 +106,11 @@ class MainWindow(tk.Frame):
         label_cmap_range.grid(row=2, column=0)
         entry_cmap_range_1.grid(row=2, column=1)
         entry_cmap_range_2.grid(row=2, column=2)
-        label_alpha.grid(row=3, column=0)
-        entry_alpha.grid(row=3, column=1)
-        self.optionmenu_map_color.grid(row=5, column=0, columnspan=2)
-        checkbox_autoscale.grid(row=6, column=0, columnspan=3)
+        label_map_color.grid(row=3, column=0)
+        self.optionmenu_map_color.grid(row=3, column=1, columnspan=2)
+        label_alpha.grid(row=4, column=0)
+        entry_alpha.grid(row=4, column=1)
+        checkbox_autoscale.grid(row=5, column=0, columnspan=3)
 
     def on_click(self, event: matplotlib.backend_bases.MouseEvent) -> None:
         # クリックした点のスペクトルを表示する
